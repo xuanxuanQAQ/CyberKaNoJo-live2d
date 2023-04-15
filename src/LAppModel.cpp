@@ -355,13 +355,27 @@ void LAppModel::Update()
     // モーションによるパラメータ更新の有無
     csmBool motionUpdated = false;
 
+    // 基于TcpIP获取信息
+    TcpClient& client = TcpClient::GetInstance();
+    int32_t data_int = client.get_received_data();
+   
+    if (data_int == -1)
+    {
+        client.set_speaking_status(true);
+    }
+    else if (data_int == -2)
+    {
+        client.set_speaking_status(false); 
+    }
     //-----------------------------------------------------------------
     _model->LoadParameters(); // 前回セーブされた状態をロード
     if (_motionManager->IsFinished())
     {
         // モーションの再生がない場合、待機モーションの中からランダムで再生する
-        // 关掉了随即动作
-        // StartRandomMotion(MotionGroupIdle, PriorityIdle);
+        if (!client.is_speaking())
+        {
+            StartRandomMotion(MotionGroupIdle, PriorityIdle);
+        }
     }
     else
     {
@@ -414,22 +428,20 @@ void LAppModel::Update()
     if (_lipSync)
     {
         // リアルタイムでリップシンクを行う場合、システムから音量を取得して0〜1の範囲で値を入力します。
-        // 基于TcpIP获取音量信息
-        TcpClient& client = TcpClient::GetInstance();
-        int32_t data_int = client.get_received_data();
+        // 获取音量信息
         csmFloat32 value;
-        static int i = 0;
+        static int update_count = 0;
         static csmFloat32 buffer = 0;
-        i++;
-        if (data_int != 0)
+        update_count++;
+        if (data_int > 0)
         {
             buffer = static_cast<csmFloat32>(data_int) / 12000.0f;
-            i = 0;
+            update_count = 0;
         }
-        if (i > 15)
+        if (update_count > 15)
         {
             buffer = 0;
-            i = 0;
+            update_count = 0;
         }
         value = buffer;
         // 状態更新/RMS値取得

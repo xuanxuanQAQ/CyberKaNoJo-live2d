@@ -41,5 +41,13 @@ int32_t TcpClient::get_received_data() {
     return 0;
 }
 
+bool TcpClient::is_speaking() const {
+    return speaking_status;
+}
+
+void TcpClient::set_speaking_status(bool value) {
+    speaking_status = value;
+}
+
 const char TcpClient::host[10] = "127.0.0.1";
 const char TcpClient::port[6] = "12345";

@@ -15,6 +15,10 @@ public:
     void poll();
     int32_t get_received_data();
 
+    bool is_speaking() const;
+
+    void set_speaking_status(bool value);
+
 private:
     TcpClient();
     void start_receive();
@@ -26,4 +30,5 @@ private:
     boost::array<uint8_t, 4> receive_buffer_;
     int32_t received_int;
     bool data_available_;
+    bool speaking_status = false;
 };
