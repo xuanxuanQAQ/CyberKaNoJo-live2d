@@ -371,11 +371,7 @@ void LAppModel::Update()
     _model->LoadParameters(); // 前回セーブされた状態をロード
     if (_motionManager->IsFinished())
     {
-        // モーションの再生がない場合、待機モーションの中からランダムで再生する
-        if (!client.is_speaking())
-        {
             StartRandomMotion(MotionGroupIdle, PriorityIdle);
-        }
     }
     else
     {
@@ -538,8 +534,16 @@ CubismMotionQueueEntryHandle LAppModel::StartRandomMotion(const csmChar* group, 
     {
         return InvalidMotionQueueEntryHandleValue;
     }
-
-    csmInt32 no = rand() % _modelSetting->GetMotionCount(group);
+    TcpClient& client = TcpClient::GetInstance();
+    csmInt32 no;
+    if (!client.is_speaking())
+    {
+        no = rand() % _modelSetting->GetMotionCount(group);
+    }
+    else
+    {
+        no = 0;
+    }
 
     return StartMotion(group, no, priority, onFinishedMotionHandler);
 }

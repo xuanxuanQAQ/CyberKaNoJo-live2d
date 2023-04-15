@@ -28,7 +28,8 @@ namespace LAppDefine {
     const csmFloat32 ViewLogicalMaxTop = 2.0f;
 
     // 相対パス
-    const csmChar* ResourcesPath = "../../../Resources/";
+    // const csmChar* ResourcesPath = "../../../Resources/";        //测试使用
+    const csmChar* ResourcesPath = "model/live2d/";      //生产使用
 
     // モデルの後ろにある背景の画像ファイル
     const csmChar* BackImageName = "back_class_normal.png";
@@ -41,12 +42,12 @@ namespace LAppDefine {
     // モデルを配置したディレクトリ名の配列
     // ディレクトリ名とmodel3.jsonの名前を一致させておくこと
     const csmChar* ModelDir[] = {
-        "Hiyori",
-        "Mark",
-        "Natori",
-        "Rice",
-        "Mao",
-        "Haru"
+        "Hiyori"
+        //"Mark",
+        //"Natori",
+        //"Rice",
+        //"Mao",
+        //"Haru"
     };
     const csmInt32 ModelDirSize = sizeof(ModelDir) / sizeof(const csmChar*);
 
@@ -65,7 +66,7 @@ namespace LAppDefine {
     const csmInt32 PriorityForce = 3;
 
     // デバッグ用ログの表示オプション
-    const csmBool DebugLogEnable = true;
+    const csmBool DebugLogEnable = false;
     const csmBool DebugTouchLogEnable = false;
 
     // Frameworkから出力するログのレベル設定

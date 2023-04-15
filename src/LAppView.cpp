@@ -104,7 +104,7 @@ void LAppView::Initialize()
 void LAppView::Render()
 {
     _back->Render();
-    _gear->Render();
+    // _gear->Render();
     _power->Render();
 
     LAppLive2DManager* Live2DManager = LAppLive2DManager::GetInstance();
@@ -165,7 +165,7 @@ void LAppView::InitializeSprite()
     y = static_cast<float>(height - gearTexture->height * 0.5f);
     fWidth = static_cast<float>(gearTexture->width);
     fHeight = static_cast<float>(gearTexture->height);
-    _gear = new LAppSprite(x, y, fWidth, fHeight, gearTexture->id, _programId);
+    // _gear = new LAppSprite(x, y, fWidth, fHeight, gearTexture->id, _programId);
 
     imageName = PowerImageName;
     LAppTextureManager::TextureInfo* powerTexture = textureManager->CreateTextureFromPngFile(resourcesPath + imageName);
@@ -215,10 +215,10 @@ void LAppView::OnTouchesEnded(float px, float py) const
         live2DManager->OnTap(x, y);
 
         // 歯車にタップしたか
-        if (_gear->IsHit(px, py))
-        {
-            live2DManager->NextScene();
-        }
+        //if (_gear->IsHit(px, py))
+        //{
+        //    live2DManager->NextScene();
+        //}
 
         // 電源ボタンにタップしたか
         if (_power->IsHit(px, py))
